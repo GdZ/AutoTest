@@ -25,7 +25,7 @@ for i in range(0, testCount):
 	print "%s [DEBUG] [%04d]Openning Camera..." %(t,i)
 	device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
 
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(2);
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]Waiting for take photo..." %(t,i)
 

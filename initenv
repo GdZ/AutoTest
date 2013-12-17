@@ -33,9 +33,9 @@ function menu()
 	===========================================
 	                AutoTest Menu
 	-------------------------------------------
-	   1.Initization your SDK_HOME
-	   2.Avaiable your .bashrc or profile file
-	   3.Do test
+	   1. Initization your SDK_HOME
+	   2. Avaiable your .bashrc or profile file
+	   *. Do test
 	===========================================
 	";
 }
@@ -59,10 +59,8 @@ case $ch in
 	2)
 		AutoCamera
 		;;
-	3)
-		echo 'Test 3'
-		;;
 	*)
+		echo $ch
 		echo "Input error"
 		;;
 esac
