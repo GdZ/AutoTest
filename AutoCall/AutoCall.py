@@ -49,9 +49,11 @@ for i in range(0, testCount):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
 	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(4);
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
 	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(2);
+	MonkeyRunner.sleep(3);
 
 	# select sim1
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
@@ -64,24 +66,26 @@ for i in range(0, testCount):
 	print "%s [DEBUG] [%04d]end call..." %(t,i)
 	device.touch(END_ICON_X, END_ICON_Y, MonkeyDevice.DOWN_AND_UP);
 	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(2);
 	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(2);
 
 	#================================================
 	# open phone from lanucher
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]Openning phone call dial..." %(t,i)
 	device.touch(PHONE_ICON_X, PHONE_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(2);
 
 	# click on call icon
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
 	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(4);
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
 	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(2);
+	MonkeyRunner.sleep(3);
 
 	# select sim1
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
@@ -94,9 +98,9 @@ for i in range(0, testCount):
 	print "%s [DEBUG] [%04d]end call..." %(t,i)
 	device.touch(END_ICON_X, END_ICON_Y, MonkeyDevice.DOWN_AND_UP);
 	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(3);
 	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(1);
+	MonkeyRunner.sleep(3);
 
 	# this is finished
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
