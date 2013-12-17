@@ -62,14 +62,17 @@ logpath=${logdir}/${logfile}
 touch ${logpath}
 tail -f ${logpath} &
 
-logcatfile="AutoCall_logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
-logcatpath=${logdir}/${logcatfile}
-touch ${logcatpath}
-#tail -f ${logcatpath}
+function catlog()
+{
+	logcatfile="AutoCall_logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
+	logcatpath=${logdir}/${logcatfile}
+	touch ${logcatpath}
+	#tail -f ${logcatpath}
+}
 
 function reportlog()
 {
-	echo "Capture bugreport."
+	echo "============================ Capture bugreport."
 	bugreportfile="AutoCall_bugreport_`date +%Y.%m.%d_%H.%M.%S`.log"
 	bugreportpath=${logdir}/${bugreportfile}
 	touch ${bugreportpath}
@@ -79,18 +82,24 @@ function reportlog()
 
 function caplog()
 {
-	echo "Capture logcat."
+	echo "============================= Capture logcat."
 	${ADB} shell logcat -v threadtime >> ${logcatpath} 2>&1
 }
+
+function slog4pc()
+{
+	echo "============================== Capture slog."
+	${PWD}/slog/linux/LogAndroid2PC.sh
 
 function doCall()
 {
 	monkeyrunner ${call_file} >> ${logpath} 2>&1
-	reportlog
+	#reportlog
+	slog4pc
 	sleep 2
 }
 
-caplog &
+#caplog &
 
 echo 'Pay attention, the testing is beginning...'
 echo 'Do testing loop 1'

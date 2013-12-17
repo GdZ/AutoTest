@@ -75,9 +75,11 @@ menu
 read -p "Choose the test you want do? " ch
 case $ch in
 	1)
+		echo "run AutoCall test."
 		AutoCall
 		;;
 	2)
+		echo "run AutoCamera test."
 		AutoCamera
 		;;
 	*)
