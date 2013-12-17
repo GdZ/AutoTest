@@ -11,7 +11,7 @@ device.press('KEYCODE_HOME','DOWN_AND_UP')
 POST_X = 240;
 POST_Y = 744;
 
-testCount = 10;
+testCount = 1000;
 
 for i in range(0, testCount):
 	MonkeyRunner.sleep(2);
@@ -45,4 +45,3 @@ for i in range(0, testCount):
 
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]This test is finished." %(t,i)
-print "Test finished."
