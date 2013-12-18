@@ -90,6 +90,7 @@ function slog4pc()
 {
 	echo "============================== Capture slog."
 	${PWD}/slog/linux/LogAndroid2PC.sh
+}
 
 function doCall()
 {
