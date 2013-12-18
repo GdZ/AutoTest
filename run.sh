@@ -54,9 +54,9 @@ function menu()
 	===========================================
 	                AutoTest Menu
 	-------------------------------------------
-	   1. Initization your SDK_HOME
-	   2. Avaiable your .bashrc or profile file
-	   *. Do test
+	   1. Auto Call Test.
+	   2. Auto Camera Test.
+	   *. Other just reverse
 	===========================================
 	";
 }
