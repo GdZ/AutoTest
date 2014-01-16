@@ -54,9 +54,9 @@ function menu()
 	===========================================
 	                AutoTest Menu
 	-------------------------------------------
-	   1. Auto Calling Test
-	   2. Auto Camera Test
-	   *. Do test
+	   1. Auto Call Test.
+	   2. Auto Camera Test.
+	   *. Other just reverse
 	===========================================
 	";
 }
