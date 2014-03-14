@@ -46,7 +46,7 @@ ADB=adb
 camera_file=$1
 
 # init log folder and file
-logdir=${PWD}/log_`date +%Y%m%d%H%M%S`
+logdir=${PWD}/logs/log_`date +%Y%m%d%H%M%S`
 # create log folder
 mkdir -p ${logdir}
 
