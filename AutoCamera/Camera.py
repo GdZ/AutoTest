@@ -91,7 +91,16 @@ for i in range(0, testCount):
 
 	# exit Camera
 	ret = device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	print "%s [DEBUG] [%4d]ret:%s" %(t,i,ret)
+	print "%s [DEBUG] [%04d]ret:%s" %(t,i,ret)
 
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]This test is finished." %(t,i)
+	'''
+	if i>5:
+		device = device;
+		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+		print "%s [INFO] [%04d]Reconnect to device." %(t,i)
+	else:
+		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+		print "%s [INFO] [%04d]Not connect to device." %(t,i)
+	'''

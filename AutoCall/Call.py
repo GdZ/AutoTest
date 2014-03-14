@@ -54,7 +54,7 @@ SIM2_ICON_Y = 537;
 END_ICON_X = 247;
 END_ICON_Y = 792;
 
-testCount = 200;
+testCount = 500;
 
 
 for i in range(0, testCount):

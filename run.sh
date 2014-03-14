@@ -79,23 +79,11 @@ case $ch in
 		AutoCall
 		echo "run AutoCall test [02]."
 		AutoCall
-		echo "run AutoCall test [03]."
-		AutoCall
-		echo "run AutoCall test [04]."
-		AutoCall
-		echo "run AutoCall test [05]."
-		AutoCall
 		;;
 	2)
 		echo "run AutoCamera test [01]."
 		AutoCamera
 		echo "run AutoCamera test [02]."
-		AutoCamera
-		echo "run AutoCamera test [03]."
-		AutoCamera
-		echo "run AutoCamera test [04]."
-		AutoCamera
-		echo "run AutoCamera test [05]."
 		AutoCamera
 		;;
 	*)
