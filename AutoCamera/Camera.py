@@ -28,9 +28,9 @@
 # in this way your testing will be continue correctly.
 #
 # Test Step:
-#	1. Open dial pad
-#	2. Dail number from last call
-#	3. Dail the number
+#	1. Open Camera
+#	2. Take photo
+#	3. Exit Camera
 #	4. After 15 seconds end the call
 #	5. Double click on back key, return to desktop
 #
@@ -52,7 +52,7 @@ device.press('KEYCODE_HOME','DOWN_AND_UP')
 POST_X = 240;
 POST_Y = 744;
 
-testCount = 1000;
+testCount = 500;
 
 for i in range(0, testCount):
 	MonkeyRunner.sleep(2);
@@ -90,7 +90,8 @@ for i in range(0, testCount):
 	print "%s [DEBUG] [%04d]Exiting Camera..." %(t,i)
 
 	# exit Camera
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
+	ret = device.press('KEYCODE_BACK', 'DOWN_AND_UP');
+	print "%s [DEBUG] [%4d]ret:%s" %(t,i,ret)
 
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] [%04d]This test is finished." %(t,i)

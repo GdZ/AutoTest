@@ -75,11 +75,27 @@ menu
 read -p "Choose the test you want do? " ch
 case $ch in
 	1)
-		echo "run AutoCall test."
+		echo "run AutoCall test [01]."
+		AutoCall
+		echo "run AutoCall test [02]."
+		AutoCall
+		echo "run AutoCall test [03]."
+		AutoCall
+		echo "run AutoCall test [04]."
+		AutoCall
+		echo "run AutoCall test [05]."
 		AutoCall
 		;;
 	2)
-		echo "run AutoCamera test."
+		echo "run AutoCamera test [01]."
+		AutoCamera
+		echo "run AutoCamera test [02]."
+		AutoCamera
+		echo "run AutoCamera test [03]."
+		AutoCamera
+		echo "run AutoCamera test [04]."
+		AutoCamera
+		echo "run AutoCamera test [05]."
 		AutoCamera
 		;;
 	*)
