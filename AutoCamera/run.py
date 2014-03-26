@@ -44,9 +44,17 @@ import time;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
+def LOGI(TAG, msg):
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [INFO] %s: %s" %(t, TAG, msg)
+
 def LOGD(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [DEBUG] %s: %s" %(t, TAG, msg)
+
+def LOGW(TAG, msg):
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [WARN] %s: %s" %(t, TAG, msg)
 
 def doClick(keycode, action):
 	TAG = "doClick"
@@ -148,3 +156,4 @@ doClick('KEYCODE_HOME','DOWN_AND_UP')
 #LOGD('test', 'this is the test....')
 sprdCamera();
 #huaweiCamera();
+
