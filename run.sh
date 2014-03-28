@@ -55,7 +55,7 @@ chProj=
 
 function menu()
 {
-	tmp=$(ls -l | grep '^d' | awk '{print $9}' | xargs -n 1);
+	tmp=$(ls -d Auto*);
 	proj=($tmp)
 	num=${#proj[@]}
 	menu_head=("==========================================" "_____________ AutoTest Menu ______________")
