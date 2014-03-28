@@ -29,7 +29,7 @@
 # in this way your testing will be continue correctly.
 #
 # Test Step:
-#	1. Open dial pad
+#	1. Open Camera
 #	2. Dail number from last call
 #	3. Dail the number
 #	4. After 15 seconds end the call
@@ -46,7 +46,7 @@ ADB=adb
 camera_file=$1
 
 # init log folder and file
-logdir=${PWD}/logs/log_`date +%Y%m%d%H%M%S`
+logdir=${PWD}/logs/monkeyrunner_`date +%Y%m%d%H%M%S`
 # create log folder
 mkdir -p ${logdir}
 
@@ -110,24 +110,24 @@ function doCamera()
 #exit 0
 
 echo 'Pay attention, the testing is beginning...'
-echo 'Do testing loop 1'
+echo 'Do doCamera loop 1'
 doCamera
-echo 'Do testing loop 2'
+echo 'Do doCamera loop 2'
 doCamera
-echo 'Do testing loop 3'
+echo 'Do doCamera loop 3'
 doCamera
-echo 'Do testing loop 4'
+echo 'Do doCamera loop 4'
 doCamera
-echo 'Do testing loop 5'
+echo 'Do doCamera loop 5'
 doCamera
-echo 'Do testing loop 6'
+echo 'Do doCamera loop 6'
 doCamera
-echo 'Do testing loop 7'
+echo 'Do doCamera loop 7'
 doCamera
-echo 'Do testing loop 8'
+echo 'Do doCamera loop 8'
 doCamera
-echo 'Do testing loop 9'
+echo 'Do doCamera loop 9'
 doCamera
-echo 'Do testing loop 10'
+echo 'Do doCamera loop 10'
 doCamera
 echo 'Pay attention, the testing is finished...'

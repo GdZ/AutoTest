@@ -45,52 +45,68 @@ from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
 # Connects to the current device, returning a MonkeyDevice object
-device = MonkeyRunner.waitForConnection()
-device.press('KEYCODE_HOME','DOWN_AND_UP')
+device = MonkeyRunner.waitForConnection();
 
-# t-Shark postition
-POST_X = 240;
-POST_Y = 744;
+# postition
+b_x = 330;
+b_y = 570;
+# 0--------->x
+# | 11   12
+# |   . .
+# |    .
+# |   . .
+# | 21   22
+# V
+# y
+# point 11
+x11 = 130;
+y11 = 440;
+xx = 240;
+yy = 160;
+# point 22
+x22 = x11 + xx;
+y22 = y11 + yy;
+# point 12
+x12 = x11 + xx;
+y12 = y11;
+# point 21
+x21 = x11;
+y21 = y11 + yy;
 
-testCount = 1000;
+testCount = 200;
 
-for i in range(0, testCount):
-	MonkeyRunner.sleep(2);
+debug = 1;
+
+def P11_P22(i):
+	#i = 11,22;
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]This test is beginning..." %(t,i)
-	# open Camera
-	# android 4.0 8825cd
-	#device.startActivity(component='com.android.camera/.Camera');
-	# android 4.1 tshark
+	print "%s [DEBUG] [%04d]flick from up-left to down-right" %(t,i)
+	device.drag((x11,y11),(x22,y22),0.1);
+
+def P12_P21(i):
+	#i = 12,21;
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Openning Camera..." %(t,i)
-	device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
+	print "%s [DEBUG] [%04d]flick from up-right to down-left" %(t,i)
+	device.drag((x12,y12),(x21,y21),0.1);
 
-	MonkeyRunner.sleep(2);
+def P11_P12(i):
+	#i = 11,12;
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Waiting for take photo..." %(t,i)
+	print "%s [DEBUG] [%04d]flick from up-right to down-left" %(t,i)
+	device.drag((x11,y11),(x12,y12),0.1);
 
-	#/////////////////////////////////////////////////////////////////////////
-	#
-	#    EasyMonkeyDevice cannot be used in some version of phone, so replaced
-	# by touch point position.
-	#
-	#------------------------------------------------------------------------
-	#easy_device = EasyMonkeyDevice(device);
-	#easy_device.touch(By.id('id/shutter_button'), MonkeyDevice.DOWN_AND_UP);
-	#------------------------------------------------------------------------
-	device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
-	#/////////////////////////////////////////////////////////////////////////
-
+def click_btn(i):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Have take photo..." %(t,i)
+	print "%s [DEBUG] [%04d]flick from up-right to down-left" %(t,i)
+	device.touch(b_x, b_y, MonkeyDevice.DOWN_AND_UP)
 
-	MonkeyRunner.sleep(4);
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Exiting Camera..." %(t,i)
+def loop():
+	for ii in range(0, testCount):
+		P11_P22(ii)
+		MonkeyRunner.sleep(2);
+		P12_P21(ii)
+		MonkeyRunner.sleep(2);
+		click_btn(ii)
+		MonkeyRunner.sleep(5);
 
-	# exit Camera
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]This test is finished." %(t,i)
+loop()

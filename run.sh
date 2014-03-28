@@ -45,45 +45,79 @@
 #####################################################################################
 
 # The test modules init area
+## version 1.0.1
 sh_AutoCall=./AutoCall/runCall.sh
 sh_AutoCamera=./AutoCamera/runCamera.sh
+## version 1.1.0
+shAuto=
+pyAuto=
+chProj=
 
 function menu()
 {
-	echo "
-	===========================================
-	                AutoTest Menu
-	-------------------------------------------
-	   1. Auto Call Test.
-	   2. Auto Camera Test.
-	   *. Other just reverse
-	===========================================
-	";
+	tmp=$(ls -l | grep '^d' | awk '{print $9}' | xargs -n 1);
+	proj=($tmp)
+	num=${#proj[@]}
+	menu_head=("==========================================" "_____________ AutoTest Menu ______________")
+	menu_tail="==========================================";
+	for(( i=0; i<${#menu_head[@]}; i++ )) {
+		echo ${menu_head[i]}
+	}
+	echo ${menu_tail}
+	for(( i=0; i<num; i++ )) {
+		echo $i". -- "${proj[$i]}" -- Module";
+	}
+	echo ${menu_tail}
+	read -p "Choose your test:" ch
+	if [ $ch -ge $num ]
+	then
+		read -p "Input Bigger Error!! Please Any Key to Exit." e
+		exit -1;
+	elif [ $ch -lt 0 ]
+	then
+		read -p "Input Samller Error!! Please Any Key to Exit." e
+		exit -1;
+	fi
+
+	chProj=${proj[$ch]}
+	shAuto="./${chProj}/run.sh"
+	pyAuto="./${chProj}/run.py"
+	echo ${chProj}
+	echo ${shAuto} ${pyAuto}
+	exit 0
 }
 
-function AutoCall()
-{
-	${sh_AutoCall} ${PWD}/AutoCall/Call.py
-}
-
-function AutoCamera()
-{
-	${sh_AutoCamera} ${PWD}/AutoCamera/Camera.py
-}
+## bellow is version 1.0.1
+# now will not use it
+#function AutoCall()
+#{
+#	${sh_AutoCall} ${PWD}/AutoCall/Call.py
+#}
+#
+#function AutoCamera()
+#{
+#	${sh_AutoCamera} ${PWD}/AutoCamera/Camera.py
+#}
 
 menu
-read -p "Choose the test you want do? " ch
-case $ch in
-	1)
-		echo "run AutoCall test."
-		AutoCall
-		;;
-	2)
-		echo "run AutoCamera test."
-		AutoCamera
-		;;
-	*)
-		echo $ch
-		echo "Input error"
-		;;
-esac
+## version 1.0.1
+# now will not use it
+#read -p "Choose the test you want do? " ch
+#case $ch in
+#	1)
+#		echo "run AutoCall test [01]."
+#		AutoCall
+#		echo "run AutoCall test [02]."
+#		AutoCall
+#		;;
+#	2)
+#		echo "run AutoCamera test [01]."
+#		AutoCamera
+#		echo "run AutoCamera test [02]."
+#		AutoCamera
+#		;;
+#	*)
+#		echo $ch
+#		echo "Input error"
+#		;;
+#esac
