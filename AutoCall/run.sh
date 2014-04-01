@@ -39,17 +39,29 @@
 # times a loop, so just do 10 times loop, which is no need to use for-loop statement.
 #
 #####################################################################################
-# init adb
+## You can set some var to debug
+DEBUG=0
+
+## init adb
 ADB=adb
-# init script
-call_file=$1
+# init script file
+run_file=$1
+proj=$2
+repeat=
+if [ -z $3 ]
+then
+	repeat=10
+else
+	repeat=$3
+fi
+echo "Set repeat to ${repeat}"
 
 # init log folder and file
-logdir=${PWD}/logs/log_`date +%Y%m%d%H%M%S`
+logdir=${PWD}/logs/${proj}_`date +%Y%m%d%H%M%S`
 # create log folder
 mkdir -p ${logdir}
 
-#init logpath
+# set log file full path
 logpath=
 logcatpath=
 bugreportpath=
@@ -57,14 +69,14 @@ bugreportpath=
 # just show the script file
 echo ${call_file}
 
-logfile="AutoCall_monkeyrunner_`date +%Y.%m.%d_%H.%M.%S`.log"
+logfile="Monkeyrunner_`date +%Y.%m.%d_%H.%M.%S`.log"
 logpath=${logdir}/${logfile}
 touch ${logpath}
 tail -f ${logpath} &
 
 function catlog()
 {
-	logcatfile="AutoCall_logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
+	logcatfile="Logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
 	logcatpath=${logdir}/${logcatfile}
 	touch ${logcatpath}
 	#tail -f ${logcatpath}
@@ -73,7 +85,7 @@ function catlog()
 function reportlog()
 {
 	echo "============================ Capture bugreport."
-	bugreportfile="AutoCall_bugreport_`date +%Y.%m.%d_%H.%M.%S`.log"
+	bugreportfile="Bugreport_`date +%Y.%m.%d_%H.%M.%S`.log"
 	bugreportpath=${logdir}/${bugreportfile}
 	touch ${bugreportpath}
 	#tail -f ${bugreportpath}
@@ -92,35 +104,25 @@ function slog4pc()
 	${PWD}/slog/linux/LogAndroid2PC.sh
 }
 
-function doCall()
+function doRun()
 {
-	monkeyrunner ${call_file} >> ${logpath} 2>&1
-	#reportlog
-	slog4pc
+	if [ $DEBUG -eq 0 ]
+	then
+		echo "Just do the test."
+		monkeyrunner ${run_file} >> ${logpath} 2>&1
+		#reportlog
+		slog4pc
+	else
+		echo "This is just show doRun tips"
+		echo "monkeyrunner ${run_file} >> ${logpath} 2>&1"
+		echo "slog4pc"
+	fi
 	sleep 2
 }
 
-#caplog &
-
 echo 'Pay attention, the testing is beginning...'
-echo 'Do testing loop 1'
-doCall
-echo 'Do testing loop 2'
-doCall
-echo 'Do testing loop 3'
-doCall
-echo 'Do testing loop 4'
-doCall
-echo 'Do testing loop 5'
-doCall
-echo 'Do testing loop 6'
-doCall
-echo 'Do testing loop 7'
-doCall
-echo 'Do testing loop 8'
-doCall
-echo 'Do testing loop 9'
-doCall
-echo 'Do testing loop 10'
-doCall
+for(( i=0; i<${repeat}; i++ )){
+	echo 'Do doRun loop '$i
+	doRun
+}
 echo 'Pay attention, the testing is finished...'

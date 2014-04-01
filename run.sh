@@ -83,8 +83,8 @@ function menu()
 	shAuto="./${chProj}/run.sh"
 	pyAuto="./${chProj}/run.py"
 	echo ${chProj}
-	echo ${shAuto} ${pyAuto}
-	${shAuto} ${pyAuto}
+	echo ${shAuto} ${pyAuto} ${chProj}
+	${shAuto} ${pyAuto} ${chProj}
 	exit 0
 }
 
