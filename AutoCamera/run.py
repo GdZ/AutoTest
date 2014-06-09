@@ -44,9 +44,50 @@ import time;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
+## define four points
+# 0--------->x
+# | 11   12
+# |   . .
+# |    .
+# |   . .
+# | 21   22
+# V
+# y
+# point 11
+x11 = 200;
+y11 = 600;
+dx = 100;
+dy = 150;
+# point 22
+x22 = x11 + dx;
+y22 = y11 + dy;
+# point 12
+x12 = x11 + dx;
+y12 = y11;
+# point 21
+x21 = x11;
+y21 = y11 + dy;
+DURATION = 0.1;
+STEPS = 100;
+A11 = (x11, y11);
+A12 = (x12, y12);
+A21 = (x21, y21);
+A22 = (x22, y22);
+
+## tips for comp
 sprdCamera='com.android.gallery3d/com.android.camera.Camera'
 hwCamera='com.android.gallery3d/com.android.camera.CameraLauncher'
 lteCamera='com.android.camera2/com.android.camera.CameraLauncher'
+Video='com.android.camera2/com.android.camera.VideoCamera'
+Photo='com.android.camera2/com.android.camera.CameraActivity'
+actVideo='android.media.action.VIDEO_CAMERA'
+actPhoto='android.media.action.STILL_IMAGE_CAMERA'
+# t-Shark postition
+TAG = "sprdCamera"
+POST_X = 240;
+POST_Y = 744;
+POST_X_V = 272;
+testCount = 1000;
 
 def LOGI(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
@@ -66,62 +107,71 @@ def doClick(keycode, action):
 	device.press(keycode, action);
 	MonkeyRunner.sleep(1);
 
-def doTask(dev):
-#def doTask():
-	# t-Shark postition
-	TAG = "sprdCamera"
-	POST_X = 240;
-	POST_Y = 744;
-	testCount = 1000;
-	#LOGD(TAG, '=======' + dev);
+def P11_P12(i):
+	#i = 11,12;
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [DEBUG] [%04d]flick from left to right" %(t,i)
+	device.drag(A11,A12,DURATION,STEPS);
+
+def Flick(i,start,end):
+	#i = 11,12;
+	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+	print "%s [DEBUG] [%04d]flick from right to left" %(t,i)
+	device.drag(start,end,DURATION,STEPS);
+
+def capVideo(i):
+	## switch to Video
+	LOGD(TAG, str(i) + ":Switch to video capture...");
+	MonkeyRunner.sleep(1);
+	device.startActivity(component=Video,action=actVideo)
+	LOGD(TAG, str(i) + ":Take video begin...");
+	MonkeyRunner.sleep(2);
+	device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
+	LOGD(TAG, str(i) + ":Recording video...");
+	MonkeyRunner.sleep(10);
+	device.touch(POST_X_V, POST_Y, MonkeyDevice.DOWN_AND_UP);
+	LOGD(TAG, str(i) + ":Waiting for store video...");
+	MonkeyRunner.sleep(1);
+	doClick('KEYCODE_BACK', 'DOWN_AND_UP');
+	LOGD(TAG, str(i) + ":Take video finished.");
+
+def capPhoto(i):
+	## switch to Photo
+	LOGD(TAG, str(i) + ":Switch to photo capture...");
+	MonkeyRunner.sleep(1);
+	device.startActivity(component=Photo,action=actPhoto)
+	LOGD(TAG, str(i) + ":Take photo...");
+	MonkeyRunner.sleep(2);
+	device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
+	MonkeyRunner.sleep(1);
+	LOGD(TAG, str(i) + ":Exiting Photo...");
+	MonkeyRunner.sleep(1);
+	doClick('KEYCODE_BACK', 'DOWN_AND_UP');
+	LOGD(TAG, str(i) + ":Take photo finished.")
+
+def doTask():
 	for i in range(0, testCount):
 		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 		LOGD(TAG, str(i) + ':Begin a new take photo test...')
-		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 		MonkeyRunner.sleep(1);
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 
-		MonkeyRunner.sleep(2);
-		LOGD(TAG, str(i) + ':This test is beginning...')
-		# open Camera
-		# sprd android 4.0 8825c
-		#device.startActivity(component='com.android.camera/.Camera');
-		# sprd android 4.1 tshark
-		LOGD(TAG, str(i) + ":Openning Camera...");
-		# device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
-		# device.startActivity(component='com.android.camera2/com.android.camera.CameraLauncher')
-		device.startActivity(component=dev)
-
-		MonkeyRunner.sleep(2);
-		LOGD(TAG, str(i) + ":Waiting for take photo...")
-
-		#/////////////////////////////////////////////////////////////////////////
-		#
-		#    EasyMonkeyDevice cannot be used in some version of phone, so replaced
-		# by touch point position.
-		#
-		#------------------------------------------------------------------------
-		#easy_device = EasyMonkeyDevice(device);
-		#easy_device.touch(By.id('id/shutter_button'), MonkeyDevice.DOWN_AND_UP);
-		#------------------------------------------------------------------------
-		device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
-		#/////////////////////////////////////////////////////////////////////////
-		LOGD(TAG, str(i) + ":Have take photo...")
-
-		MonkeyRunner.sleep(4);
-		LOGD(TAG, str(i) + ":Exiting Camera...")
-
-		# exit Camera
+		LOGD(TAG, str(i) + ':Begin to cap video...')
+		MonkeyRunner.sleep(1);
+		capVideo(i);
+		LOGD(TAG, str(i) + ':Begin to cap photo...')
+		MonkeyRunner.sleep(1);
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
-		LOGD(TAG, str(i) + ":This test is finished.")
+		MonkeyRunner.sleep(1);
+		capPhoto(i);
+		MonkeyRunner.sleep(1);
 
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
-doClick('KEYCODE_HOME','DOWN_AND_UP')
+doClick('KEYCODE_BACK','DOWN_AND_UP')
 #LOGD('test', 'this is the test....')
 #sprdCamera();
 #huaweiCamera();
-doTask(lteCamera);
-#doTask();
+doTask();
 #doTask(hwCamera);
 
