@@ -55,6 +55,17 @@ chProj=
 projList=()
 projDesc=
 projLen=
+# 1: not cap log
+# 0: cap log
+DEBUG=0
+
+if [[ $1 -eq 1 ]]
+then
+	DEBUG=1 # capture log
+else
+	DEBUG=0
+fi
+echo 'DEBUG switch set to '$DEBUG
 
 function loadConfig()
 {
@@ -108,8 +119,8 @@ function menu()
 	shAuto="./${chProj}/run.sh"
 	pyAuto="./${chProj}/run.py"
 	echo ${chProj}
-	echo ${shAuto} ${pyAuto} ${chProj}
-	${shAuto} ${pyAuto} ${chProj}
+	echo ${shAuto} ${pyAuto} ${chProj} ${DEBUG}
+	${shAuto} ${pyAuto} ${chProj} ${DEBUG}
 	exit 0
 }
 
