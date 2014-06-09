@@ -1,6 +1,7 @@
 #!/bin/bash
 VERSION=2.1.6
 # prepare adb connection
+echo $PWD
 echo "version:${VERSION}"
 java -version
 #adb kill-server

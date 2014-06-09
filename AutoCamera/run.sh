@@ -40,13 +40,26 @@
 # times a loop, so just do 10 times loop, which is no need to use for-loop statement.
 #
 #####################################################################################
-# init adb
+## You can set some var to DEBUG
+
+## init adb
 ADB=adb
 # init script file
-camera_file=$1
+run_file=$1
+proj=$2
+DEBUG=$3
+echo "DEBUG:"$DEBUG
+repeat=
+if [ -z $4 ]
+then
+	repeat=10
+else
+	repeat=$4
+fi
+echo "Set repeat to ${repeat}"
 
 # init log folder and file
-logdir=${PWD}/logs/monkeyrunner_`date +%Y%m%d%H%M%S`
+logdir=${PWD}/logs/${proj}_`date +%Y%m%d%H%M%S`
 # create log folder
 mkdir -p ${logdir}
 
@@ -58,14 +71,14 @@ bugreportpath=
 # just show the script file
 echo ${call_file}
 
-logfile="AutoCamera_monkeyrunner_`date +%Y.%m.%d_%H.%M.%S`.log"
+logfile="Monkeyrunner_`date +%Y.%m.%d_%H.%M.%S`.log"
 logpath=${logdir}/${logfile}
 touch ${logpath}
 tail -f ${logpath} &
 
 function catlog()
 {
-	logcatfile="AutoCamera_logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
+	logcatfile="Logcat_`date +%Y.%m.%d_%H.%M.%S`.log"
 	logcatpath=${logdir}/${logcatfile}
 	touch ${logcatpath}
 	#tail -f ${logcatpath}
@@ -74,7 +87,7 @@ function catlog()
 function reportlog()
 {
 	echo "============================ Capture bugreport."
-	bugreportfile="AutoCamera_bugreport_`date +%Y.%m.%d_%H.%M.%S`.log"
+	bugreportfile="Bugreport_`date +%Y.%m.%d_%H.%M.%S`.log"
 	bugreportpath=${logdir}/${bugreportfile}
 	touch ${bugreportpath}
 	#tail -f ${bugreportpath}
@@ -93,41 +106,34 @@ function slog4pc()
 	${PWD}/slog/linux/LogAndroid2PC.sh
 }
 
-function doCamera()
+function doRun()
 {
-	monkeyrunner ${camera_file} >> ${logpath} 2>&1
-	#reportlog
-	slog4pc
+	monkeyrunner ${run_file} >> ${logpath} 2>&1
+	if [ $DEBUG -eq 0 ]
+	then
+		echo "Just do the test."
+		#reportlog
+		slog4pc
+	else
+		echo "This is just show doRun tips"
+		echo "monkeyrunner ${run_file} >> ${logpath} 2>&1"
+		echo "slog4pc"
+	fi
 	sleep 2
 }
 
-#caplog &
-
-#reportlog
-#echo $logpath
-#echo $logcatpath
-#echo $bugreportpath
-#exit 0
+function clsDCIM()
+{
+	adb shell rm -rf /sdcard/DCIM/Camera/*
+}
 
 echo 'Pay attention, the testing is beginning...'
-echo 'Do doCamera loop 1'
-doCamera
-echo 'Do doCamera loop 2'
-doCamera
-echo 'Do doCamera loop 3'
-doCamera
-echo 'Do doCamera loop 4'
-doCamera
-echo 'Do doCamera loop 5'
-doCamera
-echo 'Do doCamera loop 6'
-doCamera
-echo 'Do doCamera loop 7'
-doCamera
-echo 'Do doCamera loop 8'
-doCamera
-echo 'Do doCamera loop 9'
-doCamera
-echo 'Do doCamera loop 10'
-doCamera
+for(( i=0; i<${repeat}; i++ )){
+	echo 'Do doRun loop '$i
+	doRun
+	sleep 2
+	echo '$i : The next will clear photos.'
+	clsDCIM
+	echo '$i : The next will clear photos finished.'
+}
 echo 'Pay attention, the testing is finished...'

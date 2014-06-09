@@ -52,6 +52,46 @@ sh_AutoCamera=./AutoCamera/runCamera.sh
 shAuto=
 pyAuto=
 chProj=
+projList=()
+projDesc=
+projLen=
+# 1: not cap log
+# 0: cap log
+DEBUG=0
+
+## version 2.2.4 log
+export PATH=$PWD/slog/linux:$PATH
+echo $PATH
+
+if [[ $1 -eq 1 ]]
+then
+	DEBUG=1 # capture log
+else
+	DEBUG=0
+fi
+echo 'DEBUG switch set to '$DEBUG
+
+function loadConfig()
+{
+	i=0;
+	len=0;
+	cat config | \
+	while read line
+	do
+		projList[i]=`echo $line | awk -F: '{print $1}'`;echo "projList[$i]=${projList[$i]}"
+		projDesc[i]=`echo $line | awk -F: '{print $2}'`;echo "projDesc[$i]=${projDesc[$i]}"
+		i=$[$i+1]
+		len=$i
+	done
+	echo $len
+	echo ${#projList[*]}
+}
+
+# loadConfig
+#for (( i=0; i<projLen; i++ )) {
+#	echo "fd"${projList[$i]}
+#}
+#exit 0
 
 function menu()
 {
@@ -83,8 +123,8 @@ function menu()
 	shAuto="./${chProj}/run.sh"
 	pyAuto="./${chProj}/run.py"
 	echo ${chProj}
-	echo ${shAuto} ${pyAuto}
-	${shAuto} ${pyAuto}
+	echo ${shAuto} ${pyAuto} ${chProj} ${DEBUG}
+	${shAuto} ${pyAuto} ${chProj} ${DEBUG}
 	exit 0
 }
 

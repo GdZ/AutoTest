@@ -22,21 +22,16 @@
 #
 #====================================================================================
 #
-# This Script is just for Auto Call testing.
+# This Script is just for Auto Open Apps testing.
 # Before test:
-#	Dail a number. Which can be 10086 and other number. Through this is just create
-#	a record in calllog.
+#
 #
 # Test Step:
-#	1. Open dial pad
-#	2. Dail number from last call
-#	3. Dail the number
-#	4. After 15 seconds end the call
-#	5. Double click on back key, return to desktop
+#	1.
+#	2.
 #
 # Some other:
-#   As this test just want to do 10,000 times calls, which monkeyrunner can do 1000
-# times a loop, so just do 10 times loop, which is no need to use for-loop statement.
+#
 #
 #####################################################################################
 ## You can set some var to debug
@@ -50,7 +45,7 @@ proj=$2
 repeat=
 if [ -z $3 ]
 then
-	repeat=10
+	repeat=1
 else
 	repeat=$3
 fi
