@@ -59,6 +59,10 @@ projLen=
 # 0: cap log
 DEBUG=0
 
+## version 2.2.4 log
+export PATH=$PWD/slog/linux:$PATH
+echo $PATH
+
 if [[ $1 -eq 1 ]]
 then
 	DEBUG=1 # capture log
