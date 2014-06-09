@@ -44,6 +44,10 @@ import time;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
+sprdCamera='com.android.gallery3d/com.android.camera.Camera'
+hwCamera='com.android.gallery3d/com.android.camera.CameraLauncher'
+lteCamera='com.android.camera2/com.android.camera.CameraLauncher'
+
 def LOGI(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [INFO] %s: %s" %(t, TAG, msg)
@@ -62,12 +66,14 @@ def doClick(keycode, action):
 	device.press(keycode, action);
 	MonkeyRunner.sleep(1);
 
-def sprdCamera():
+def doTask(dev):
+#def doTask():
 	# t-Shark postition
 	TAG = "sprdCamera"
 	POST_X = 240;
 	POST_Y = 744;
 	testCount = 1000;
+	#LOGD(TAG, '=======' + dev);
 	for i in range(0, testCount):
 		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 		LOGD(TAG, str(i) + ':Begin a new take photo test...')
@@ -82,7 +88,9 @@ def sprdCamera():
 		#device.startActivity(component='com.android.camera/.Camera');
 		# sprd android 4.1 tshark
 		LOGD(TAG, str(i) + ":Openning Camera...");
-		device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
+		# device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
+		# device.startActivity(component='com.android.camera2/com.android.camera.CameraLauncher')
+		device.startActivity(component=dev)
 
 		MonkeyRunner.sleep(2);
 		LOGD(TAG, str(i) + ":Waiting for take photo...")
@@ -106,54 +114,14 @@ def sprdCamera():
 		# exit Camera
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 		LOGD(TAG, str(i) + ":This test is finished.")
-
-def huaweiCamera():
-	# t-Shark postition
-	TAG = "huaweiCamera"
-	POST_X = 240;
-	POST_Y = 744;
-	testCount = 1000;
-	for i in range(0, testCount):
-		MonkeyRunner.sleep(2);
-		LOGD(TAG, str(i) + ":This test is beginning...")
-		# open Camera
-		# android 4.0 8825cd
-		#device.startActivity(component='com.android.camera/.Camera');
-		# android 4.1 tshark
-		LOGD(TAG, str(i) + ":Openning Camera...")
-		## this is for sprd test.
-		#device.startActivity(component='com.android.gallery3d/com.android.camera.Camera')
-		## this is for huawei test
-		device.startActivity(component='com.android.gallery3d/com.android.camera.CameraLauncher')
-
-		MonkeyRunner.sleep(2);
-		LOGD(TAG, str(i) + ":Waiting for take photo...")
-
-		#/////////////////////////////////////////////////////////////////////////
-		#
-		#    EasyMonkeyDevice cannot be used in some version of phone, so replaced
-		# by touch point position.
-		#
-		#------------------------------------------------------------------------
-		#easy_device = EasyMonkeyDevice(device);
-		#easy_device.touch(By.id('id/shutter_button'), MonkeyDevice.DOWN_AND_UP);
-		#------------------------------------------------------------------------
-		device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
-		#/////////////////////////////////////////////////////////////////////////
-		LOGD(TAG, str(i) + ":Have take photo...")
-
-		MonkeyRunner.sleep(4);
-		LOGD(TAG, str(i) + ":Exiting Camera...")
-
-		# exit Camera
-		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
-		LOGD(TAG, str(i) + ":This test is finished.")
-
 
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_HOME','DOWN_AND_UP')
 #LOGD('test', 'this is the test....')
-sprdCamera();
+#sprdCamera();
 #huaweiCamera();
+doTask(lteCamera);
+#doTask();
+#doTask(hwCamera);
 

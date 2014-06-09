@@ -52,6 +52,31 @@ sh_AutoCamera=./AutoCamera/runCamera.sh
 shAuto=
 pyAuto=
 chProj=
+projList=()
+projDesc=
+projLen=
+
+function loadConfig()
+{
+	i=0;
+	len=0;
+	cat config | \
+	while read line
+	do
+		projList[i]=`echo $line | awk -F: '{print $1}'`;echo "projList[$i]=${projList[$i]}"
+		projDesc[i]=`echo $line | awk -F: '{print $2}'`;echo "projDesc[$i]=${projDesc[$i]}"
+		i=$[$i+1]
+		len=$i
+	done
+	echo $len
+	echo ${#projList[*]}
+}
+
+# loadConfig
+#for (( i=0; i<projLen; i++ )) {
+#	echo "fd"${projList[$i]}
+#}
+#exit 0
 
 function menu()
 {
