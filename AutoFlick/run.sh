@@ -8,7 +8,7 @@ function chk()
 			exit 0
 			;;
 		*)
-			monkeyrunner ./AutoTouch.py
+			monkeyrunner ./run.py
 			chk
 			;;
 	esac
