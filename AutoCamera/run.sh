@@ -125,6 +125,7 @@ function doRun()
 function clsDCIM()
 {
 	adb shell rm -rf /sdcard/DCIM/Camera/*
+	adb shell rm -rf /storage/sdcard0/DCIM/Camera/*
 }
 
 echo 'Pay attention, the testing is beginning...'
