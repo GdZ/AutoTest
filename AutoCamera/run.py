@@ -128,7 +128,7 @@ def capVideo(i):
 	MonkeyRunner.sleep(2);
 	device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
 	LOGD(TAG, str(i) + ":Recording video...");
-	MonkeyRunner.sleep(10);
+	MonkeyRunner.sleep(4);
 	device.touch(POST_X_V, POST_Y, MonkeyDevice.DOWN_AND_UP);
 	LOGD(TAG, str(i) + ":Waiting for store video...");
 	MonkeyRunner.sleep(1);
