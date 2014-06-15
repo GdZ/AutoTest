@@ -104,6 +104,7 @@ def LOGW(TAG, msg):
 def doClick(keycode, action):
 	TAG = "doClick"
 	LOGD(TAG, "Do " + keycode + " click " + action)
+	MonkeyRunner.sleep(1);
 	device.press(keycode, action);
 	MonkeyRunner.sleep(1);
 
@@ -131,7 +132,6 @@ def capVideo(i):
 	MonkeyRunner.sleep(10);
 	device.touch(POST_X_V, POST_Y, MonkeyDevice.DOWN_AND_UP);
 	LOGD(TAG, str(i) + ":Waiting for store video...");
-	MonkeyRunner.sleep(1);
 	doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 	LOGD(TAG, str(i) + ":Take video finished.");
 
@@ -143,9 +143,7 @@ def capPhoto(i):
 	LOGD(TAG, str(i) + ":Take photo...");
 	MonkeyRunner.sleep(2);
 	device.touch(POST_X, POST_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(1);
 	LOGD(TAG, str(i) + ":Exiting Photo...");
-	MonkeyRunner.sleep(1);
 	doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 	LOGD(TAG, str(i) + ":Take photo finished.")
 
@@ -153,18 +151,12 @@ def doTask():
 	for i in range(0, testCount):
 		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 		LOGD(TAG, str(i) + ':Begin a new take photo test...')
-		MonkeyRunner.sleep(1);
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
-
 		LOGD(TAG, str(i) + ':Begin to cap video...')
-		MonkeyRunner.sleep(1);
 		capVideo(i);
 		LOGD(TAG, str(i) + ':Begin to cap photo...')
-		MonkeyRunner.sleep(1);
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
-		MonkeyRunner.sleep(1);
 		capPhoto(i);
-		MonkeyRunner.sleep(1);
 
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
