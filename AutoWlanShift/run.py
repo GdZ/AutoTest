@@ -1,4 +1,5 @@
 import time;
+import sys;
 #import pydoc;
 #import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice, MonkeyImage
@@ -10,6 +11,9 @@ DEBUG = 1
 lteCamera='com.android.settings/com.android.settings.Settings'
 OPEN_CLOSE_X = 368
 OPEN_CLOSE_Y = 182
+
+dType = sys.argv[1]
+print "dType: ", dType
 
 device = MonkeyRunner.waitForConnection()
 #width = MonkeyDevice.getProperty(display.width);
