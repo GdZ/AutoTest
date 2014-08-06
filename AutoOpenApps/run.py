@@ -22,6 +22,25 @@ END_Y = 650
 UP_X = 120
 UP_Y = 160
 
+dType = sys.argv[1]
+print "dType: ", dType
+
+""" Must copy dType to tmp
+Because dType contain some non-display character
+I'm so amazing about this
+"""
+" modify @2014.08.06 begin "
+tmp = ""
+ct = 0
+for i in range(0,len(dType)-1):
+	print "dType[%d]=%c" %(i, dType[i])
+	if('\0' == dType[i]):
+		break
+	else:
+		ct = ct + 1
+	tmp = tmp + "" + dType[i]
+print "ct:%d,dType:%d" %(ct, len(dType)-1)
+" modify @2014.08.06 end "
 imageA = MonkeyRunner.loadImageFromFile("./screen/screen.png")
 device = MonkeyRunner.waitForConnection()
 t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));

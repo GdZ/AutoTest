@@ -110,6 +110,7 @@ function slog4pc()
 
 function doRun()
 {
+	#echo "monkeyrunner ${run_file} ${DTYPE} \>\> ${logpath} 2\>\&1"
 	monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1
 	if [ $DEBUG -eq 0 ]
 	then
@@ -118,15 +119,8 @@ function doRun()
 		slog4pc
 	else
 		echo "This is just show doRun tips"
-		echo "monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1"
-		echo "slog4pc"
 	fi
 	sleep 2
-}
-
-function clsDCIM()
-{
-	adb shell rm -rf /sdcard/DCIM/Camera/*
 }
 
 echo 'Pay attention, the testing is beginning...'
@@ -134,8 +128,5 @@ for(( i=0; i<${repeat}; i++ )){
 	echo 'Do doRun loop '$i
 	doRun
 	sleep 2
-	echo '$i : The next will clear photos.'
-	#clsDCIM
-	echo '$i : The next will clear photos finished.'
 }
 echo 'Pay attention, the testing is finished...'

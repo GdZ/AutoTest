@@ -41,6 +41,7 @@
 #####################################################################################
 # import the monkeyrunner modules used by this program
 import time;
+import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
@@ -73,6 +74,26 @@ A11 = (x11, y11);
 A12 = (x12, y12);
 A21 = (x21, y21);
 A22 = (x22, y22);
+
+dType = sys.argv[1]
+print "dType: ", dType
+
+""" Must copy dType to tmp
+Because dType contain some non-display character
+I'm so amazing about this
+"""
+" modify @2014.08.06 begin "
+tmp = ""
+ct = 0
+for i in range(0,len(dType)-1):
+	print "dType[%d]=%c" %(i, dType[i])
+	if('\0' == dType[i]):
+		break
+	else:
+		ct = ct + 1
+	tmp = tmp + "" + dType[i]
+print "ct:%d,dType:%d" %(ct, len(dType)-1)
+" modify @2014.08.06 end "
 
 ## tips for comp
 sprdCamera='com.android.gallery3d/com.android.camera.Camera'

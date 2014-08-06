@@ -13,7 +13,31 @@ OPEN_CLOSE_X = 368
 OPEN_CLOSE_Y = 182
 
 dType = sys.argv[1]
-print "dType: ", dType
+print "%s" %(dType)
+
+""" Must copy dType to tmp
+Because dType contain some non-display character
+I'm so amazing about this
+"""
+" modify @2014.08.06 begin "
+tmp = ""
+ct = 0
+for i in range(0,len(dType)-1):
+	print "dType[%d]=%c" %(i, dType[i])
+	if('\0' == dType[i]):
+		break
+	else:
+		ct = ct + 1
+	tmp = tmp + "" + dType[i]
+print "ct:%d,dType:%d" %(ct, len(dType)-1)
+" modify @2014.08.06 end "
+
+if("7060S" == tmp):
+	print "This is 7060S"
+	OPEN_CLOSE_X = 340
+	OPEN_CLOSE_Y = 260
+else:
+	print "Why are you goto here"
 
 device = MonkeyRunner.waitForConnection()
 #width = MonkeyDevice.getProperty(display.width);
