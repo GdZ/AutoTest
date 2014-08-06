@@ -36,6 +36,10 @@ if("7060S" == tmp):
 	print "This is 7060S"
 	OPEN_CLOSE_X = 340
 	OPEN_CLOSE_Y = 260
+elif("YourType" == tmp):
+	""" If you want add devices, just modify bellow
+	Add your device's position here.
+	"""
 else:
 	print "Why are you goto here"
 
