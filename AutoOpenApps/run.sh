@@ -34,22 +34,25 @@
 #
 #
 #####################################################################################
-## You can set some var to debug
-DEBUG=0
+## You can set some var to DEBUG
 
 ## init adb
 ADB=adb
 # init script file
 run_file=$1
 proj=$2
+DEBUG=$3
+echo "DEBUG:"$DEBUG
 repeat=
-if [ -z $3 ]
+if [ -z $4 ]
 then
-	repeat=1
+	repeat=10
 else
-	repeat=$3
+	repeat=$4
 fi
 echo "Set repeat to ${repeat}"
+
+DTYPE=`adb shell getprop ro.yulong.version.software | cut -d'.' -f6`
 
 # init log folder and file
 logdir=${PWD}/logs/${proj}_`date +%Y%m%d%H%M%S`
@@ -101,16 +104,15 @@ function slog4pc()
 
 function doRun()
 {
+	#echo "monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1"
+	monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1
 	if [ $DEBUG -eq 0 ]
 	then
 		echo "Just do the test."
-		monkeyrunner ${run_file} >> ${logpath} 2>&1
 		#reportlog
 		slog4pc
 	else
 		echo "This is just show doRun tips"
-		echo "monkeyrunner ${run_file} >> ${logpath} 2>&1"
-		echo "slog4pc"
 	fi
 	sleep 2
 }

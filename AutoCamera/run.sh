@@ -58,6 +58,8 @@ else
 fi
 echo "Set repeat to ${repeat}"
 
+DTYPE=`adb shell getprop ro.yulong.version.software | cut -d'.' -f6`
+
 # init log folder and file
 logdir=${PWD}/logs/${proj}_`date +%Y%m%d%H%M%S`
 # create log folder
@@ -108,7 +110,8 @@ function slog4pc()
 
 function doRun()
 {
-	monkeyrunner ${run_file} >> ${logpath} 2>&1
+	#echo "monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1"
+	monkeyrunner ${run_file} ${DTYPE} >> ${logpath} 2>&1
 	if [ $DEBUG -eq 0 ]
 	then
 		echo "Just do the test."
@@ -116,8 +119,6 @@ function doRun()
 		slog4pc
 	else
 		echo "This is just show doRun tips"
-		echo "monkeyrunner ${run_file} >> ${logpath} 2>&1"
-		echo "slog4pc"
 	fi
 	sleep 2
 }
