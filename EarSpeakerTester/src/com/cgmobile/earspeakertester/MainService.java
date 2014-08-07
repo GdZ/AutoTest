@@ -24,7 +24,10 @@ public class MainService extends Service implements OnAudioFocusChangeListener {
     // four seconds
     public static final int TIME_STONE = 3500;
 
-    private static final String AUDIO_FILE_NAME = "all rise.mp3";
+	// gdz.modify @2014.08.07 for new resource
+    //private static final String AUDIO_FILE_NAME = "all rise.mp3";
+    private static final String AUDIO_FILE_NAME = "2500hz.mp3";
+	// gdz.modify @2014.08.07 for new resource
     // private static final String AUDIO_FILE_PATH = "file:///android_asset/" +
     // AUDIO_FILE_NAME;
 
