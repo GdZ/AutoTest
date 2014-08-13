@@ -53,6 +53,14 @@ tmp = ""
 ct = 0
 
 ## This is the list of package will install and uninstall
+""" You can Modify this variable for yourself define.
+This variable contain pkginfo, such as
+	apk: path of the apk file
+	pkg: package name of this apk
+	act: the main activity of this package
+	pos: the prefer install location
+	ins: is this apk have been install or not
+"""
 pkgList = [{'apk':'91xiongmaokanshu_6010.apk', 'pkg':'com.nd.android.pandareader', 'act':'', 'pos':1, 'ins':0},
 	{'apk':'anjuke_313787.apk', 'pkg':'com.anjuke.android.app', 'act':'', 'pos':1, 'ins':0},
 	{'apk':'baidushoujizhushou_16783875.apk', 'pkg':'com.baidu.appsearch', 'act':'', 'pos':1, 'ins':0},
@@ -115,7 +123,31 @@ def InstallAPK(pkginfo):
 	LOGD(mTAG, 'Begin to Install package...')
 	ret = device.installPackage(pkginfo['apk'])
 	MonkeyRunner.sleep(1)
+	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
+
+def InstallAll():
+	for i in range(0, testCount):
+		LOGD(TAG, str(i) + '/' + str(testCount) + ':Begin to Install package...')
+		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+		LOGD(TAG, pkgList[i])
+		ret = InstallAPK(pkgList[i])
+		if ret == True:
+			LOGD(TAG, 'Install package ok...')
+			pkgList[i]['ins'] = 1
+		else:
+			LOGD(TAG, 'Install package fail...')
+			LOGD(TAG, str(i) + '/' + str(testCount) + ':Uninstall one package for install new package...')
+			t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+			for ii in range(0, i, 1) :
+				if pkgList[ii]['ins'] == 1:
+					LOGD(TAG, pkgList[ii] + ' will be uninstall....')
+					UninstallAPK(pkgList[ii])
+					pkgList[ii]['ins'] = 0
+					break
+				else:
+					LOGD(TAG, pkgList[ii]['apk'] + ' is not install no need to uninstall.')
+					continue
 
 def UninstallAPK(pkginfo):
 	mTAG = 'UninstallAPK'
@@ -124,42 +156,29 @@ def UninstallAPK(pkginfo):
 	LOGD(mTAG, 'Begin to Uninstall package...')
 	ret = device.removePackage(pkginfo['pkg'])
 	MonkeyRunner.sleep(1)
+	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
+
+def UninstallAll():
+	mTAG = 'UninstallAll'
+	for i in range(0, testCount):
+		LOGD(mTAG, str(i) + '/' + str(testCount) + ':Begin to Uninstall all package...')
+		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
+		LOGD(mTAG, pkgList[i])
+		if pkgList[i]['ins'] == 1 :
+			UninstallAPK(pkgList[i])
 
 def doTask():
 	testCount = len(pkgList)
-	ct = 0
-	index = 0
+	LOGD(TAG, 'Install all package begin..................')
+	InstallAll()
+	LOGD(TAG, 'Uninstall all package begin..................')
+	UninstallAll()
 
-	for i in range(0, testCount):
-		LOGD(TAG, str(i) + '/' + str(testCount) + ':Begin to Install package...')
-		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-		LOGD(TAG, pkgList[i])
-		ret = InstallAPK(pkgList[i])
-		if ret == True:
-			LOGD(TAG, 'Install package ok...')
-			installed[ct] = i
-			ct = ct + 1
-			pkgList[i]['ins'] = 1
-		else:
-			LOGD(TAG, 'Install package fail...')
-			LOGD(TAG, str(i) + '/' + str(testCount) + ':Begin to Uninstall package...')
-			t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-			index = ct - 1
-			if(pkgList[installed[index]]['ins'] == 1):
-				LOGD(TAG, pkgList[installed[index]])
-				UninstallAPK(pkgList[installed[index]])
-				ct = ct - 1
-		LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-	for j in installed:
-		LOGD(TAG, str(i) + '/' + str(testCount) + ':Begin to Uninstall package...')
-		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-		index = ct - 1
-		LOGD(TAG, pkgList[installed[index]])
-		UninstallAPK(pkgList[installed[index]])
 
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')
 doTask();
+LOGD(TAG, 'pkgList:' + pkgList)
 LOGD(TAG, "THIS MODULE TEST HAVE DONE............")
