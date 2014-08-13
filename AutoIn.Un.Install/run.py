@@ -42,8 +42,8 @@
 # import the monkeyrunner modules used by this program
 import time;
 import sys;
-from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
-from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice;
+from com.android.monkeyrunner.easy import EasyMonkeyDevice, By;
 
 # t-Shark postition
 TAG = "AutoIn.Un.Install"
@@ -118,7 +118,6 @@ def InitArgs():
 
 def InstallAPK(pkginfo):
 	mTAG = 'InstallAPK'
-	LOGD(TAG, "Install Package: " + pkginfo['apk'] + ' the package name is: ' + pkginfo['pkg'])
 	LOGD(mTAG, 'Begin to Install package...')
 	ret = device.installPackage(pkginfo['apk'])
 	#MonkeyRunner.sleep(1)
@@ -148,10 +147,10 @@ def InstallAll():
 				else:
 					LOGD(mTAG, pkgList[ii]['apk'] + ' is not install no need to uninstall.')
 					continue
+		LOGD(mTAG, pkgList[i])
 
 def UninstallAPK(pkginfo):
 	mTAG = 'UninstallAPK'
-	LOGD(mTAG, "Uninstall Package: " + pkginfo['apk'] + ' the package name is: ' + pkginfo['pkg'])
 	LOGD(mTAG, 'Begin to Uninstall package...')
 	ret = device.removePackage(pkginfo['pkg'])
 	#MonkeyRunner.sleep(1)
@@ -167,6 +166,7 @@ def UninstallAll():
 		LOGD(mTAG, pkgList[i])
 		if pkgList[i]['ins'] == 1 :
 			UninstallAPK(pkgList[i])
+		LOGD(mTAG, pkgList[i])
 
 def PrepareEnv():
 	mTAG = 'PrepareEnv'
@@ -176,9 +176,10 @@ def PrepareEnv():
 		t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 		LOGD(mTAG, pkgList[i])
 		UninstallAPK(pkgList[i])
+		LOGD(mTAG, pkgList[i])
 
 def doTask():
-	PrepareEnv()
+	#PrepareEnv()
 	LOGD(TAG, 'Install all package begin..................')
 	InstallAll()
 	LOGD(TAG, 'Uninstall all package begin..................')
@@ -189,5 +190,6 @@ def doTask():
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')
 doTask();
-LOGD(TAG, 'pkgList:' + str(pkgList))
+for i in range(0, len(pkgList)):
+	LOGD(TAG, 'pkgList:' + pkgList[i])
 LOGD(TAG, "THIS MODULE TEST HAVE DONE............")
