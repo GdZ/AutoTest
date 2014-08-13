@@ -129,7 +129,6 @@ def InstallAPK(pkginfo):
 	LOGD(mTAG, 'Begin to Install package...')
 	ret = device.installPackage(pkginfo['apk'])
 	#MonkeyRunner.sleep(1)
-	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
 
 # Install all package in the pkgList
@@ -157,6 +156,7 @@ def InstallAll():
 					LOGD(mTAG, pkgList[ii]['apk'] + ' is not install no need to uninstall.')
 					continue
 		LOGD(mTAG, pkgList[i])
+	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 
 # Uninstall apk package files
 def UninstallAPK(pkginfo):
@@ -164,7 +164,6 @@ def UninstallAPK(pkginfo):
 	LOGD(mTAG, 'Begin to Uninstall package...')
 	ret = device.removePackage(pkginfo['pkg'])
 	#MonkeyRunner.sleep(1)
-	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
 
 # Uninstall all packages
@@ -178,6 +177,7 @@ def UninstallAll():
 		if pkgList[i]['ins'] == 1 :
 			UninstallAPK(pkgList[i])
 		LOGD(mTAG, pkgList[i])
+	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 
 # This function just use to delete all package without judgement the install status
 def PrepareEnv():
@@ -197,7 +197,6 @@ def doTask():
 	LOGD(TAG, 'Uninstall all package begin..................')
 	UninstallAll()
 
-
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')
@@ -206,3 +205,4 @@ testCount = len(pkgList)
 for i in range(0, testCount):
 	LOGD(TAG, 'pkgList:' + str(pkgList[i]))
 LOGD(TAG, "THIS MODULE TEST HAVE DONE............")
+
