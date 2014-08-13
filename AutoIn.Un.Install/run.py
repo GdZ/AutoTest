@@ -78,6 +78,9 @@ pkgList = [{'apk':'91xiongmaokanshu_6010.apk', 'pkg':'com.nd.android.pandareader
 	{'apk':'VoiceSearch_214.apk', 'pkg':'com.google.android.voicesearch', 'act':'', 'pos':1, 'ins':0},
 	{'apk':'yingyuliulishuo_195.apk', 'pkg':'com.liulishuo.engzo', 'act':'', 'pos':1, 'ins':0}]
 
+""" This area just use for format the output, friendly to read
+and find out the programe running state.
+"""
 def LOGI(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [INFO] %s: %s" %(t, TAG, msg)
@@ -90,6 +93,8 @@ def LOGW(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
 	print "%s [WARN] %s: %s" %(t, TAG, msg)
 
+""" This is self define function, for useful action
+"""
 def doClick(keycode, action):
 	TAG = "doClick"
 	LOGD(TAG, "Do " + keycode + " click " + action)
@@ -97,6 +102,8 @@ def doClick(keycode, action):
 	device.press(keycode, action);
 	MonkeyRunner.sleep(1);
 
+""" This is get args from export script
+"""
 def InitArgs():
 	dType = sys.argv[1]
 	print "dType: ", dType
@@ -116,6 +123,7 @@ def InitArgs():
 	print "ct:%d,dType:%d" %(ct, len(dType)-1)
 	" modify @2014.08.06 end "
 
+# Install one apk files
 def InstallAPK(pkginfo):
 	mTAG = 'InstallAPK'
 	LOGD(mTAG, 'Begin to Install package...')
@@ -124,6 +132,7 @@ def InstallAPK(pkginfo):
 	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
 
+# Install all package in the pkgList
 def InstallAll():
 	mTAG = 'InstallAll'
 	testCount = len(pkgList)
@@ -149,6 +158,7 @@ def InstallAll():
 					continue
 		LOGD(mTAG, pkgList[i])
 
+# Uninstall apk package files
 def UninstallAPK(pkginfo):
 	mTAG = 'UninstallAPK'
 	LOGD(mTAG, 'Begin to Uninstall package...')
@@ -157,6 +167,7 @@ def UninstallAPK(pkginfo):
 	LOGD(mTAG, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 	return ret
 
+# Uninstall all packages
 def UninstallAll():
 	mTAG = 'UninstallAll'
 	testCount = len(pkgList)
@@ -168,6 +179,7 @@ def UninstallAll():
 			UninstallAPK(pkgList[i])
 		LOGD(mTAG, pkgList[i])
 
+# This function just use to delete all package without judgement the install status
 def PrepareEnv():
 	mTAG = 'PrepareEnv'
 	testCount = len(pkgList)
@@ -190,6 +202,7 @@ def doTask():
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')
 doTask();
-for i in range(0, len(pkgList)):
-	LOGD(TAG, 'pkgList:' + pkgList[i])
+testCount = len(pkgList)
+for i in range(0, testCount):
+	LOGD(TAG, 'pkgList:' + str(pkgList[i]))
 LOGD(TAG, "THIS MODULE TEST HAVE DONE............")
