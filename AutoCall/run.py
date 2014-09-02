@@ -1,3 +1,4 @@
+"""
 #####################################################################################
 #
 # Copyright (c) 2013 M.R.Z <zgd1348833@gmail.com>
@@ -26,6 +27,7 @@
 # This is just for T8702A (Hisense)
 #
 #####################################################################################
+"""
 # import the monkeyrunner modules used by this program
 import time;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
