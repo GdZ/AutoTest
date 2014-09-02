@@ -5,7 +5,7 @@ from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice, MonkeyImage
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
 testCount = 10000
-TAG = "AutoWlanShift"
+TAG = "AutoBluetooth"
 DEBUG = 1
 NOT_FOUND = -1
 module='com.android.settings/com.android.settings.Settings'
@@ -28,7 +28,10 @@ if(NOT_FOUND != tmp.find("7060S")):
 	print "This is 7060S"
 	OPEN_CLOSE_X = 340
 	OPEN_CLOSE_Y = 330
-#elif("YourType" == tmp):
+elif(NOT_FOUND != tmp.find("7061")):
+	print "This is 7061"
+	OPEN_CLOSE_X = 335
+	OPEN_CLOSE_Y = 325
 elif(NOT_FOUND != tmp.find("YourType")):
 	""" If you want add devices, just modify bellow
 	Add your device's position here.

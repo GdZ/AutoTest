@@ -28,7 +28,10 @@ if(NOT_FOUND != tmp.find("7060S")):
 	print "This is 7060S"
 	OPEN_CLOSE_X = 340
 	OPEN_CLOSE_Y = 260
-#elif("YourType" == tmp):
+elif(NOT_FOUND != tmp.find("7061")):
+	print "This is 7061"
+	OPEN_CLOSE_X = 335
+	OPEN_CLOSE_Y = 255
 elif(NOT_FOUND != tmp.find("YourType")):
 	""" If you want add devices, just modify bellow
 	Add your device's position here.
