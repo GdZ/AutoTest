@@ -1,3 +1,4 @@
+"""
 #####################################################################################
 #
 # Copyright (c) 2013 M.R.Z <zgd1348833@gmail.com>
@@ -39,6 +40,7 @@
 # times a loop, so just do 10 times loop, which is no need to use for-loop statement.
 #
 #####################################################################################
+"""
 # import the monkeyrunner modules used by this program
 import time;
 import sys;

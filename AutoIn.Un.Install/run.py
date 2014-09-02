@@ -1,3 +1,4 @@
+"""
 #####################################################################################
 #
 # Copyright (c) 2013 M.R.Z <zgd1348833@gmail.com>
@@ -21,24 +22,9 @@
 #
 #====================================================================================
 #
-# This Script is just for Auto Camera testing.
-# Before test:
-#   As this you would take 10,000 pictures. One picture is more than 460kB, the total
-# is more than 4.6GB, so you must insert a 8GB or bigger SDCARD into the phone. Only
-# in this way your testing will be continue correctly.
-#
-# Test Step:
-#	1. Open Camera
-#	2. Take photo
-#	3. Exit Camera
-#	4. After 15 seconds end the call
-#	5. Double click on back key, return to desktop
-#
-# Some other:
-#   As this test just want to do 10,000 times calls, which monkeyrunner can do 1000
-# times a loop, so just do 10 times loop, which is no need to use for-loop statement.
 #
 #####################################################################################
+"""
 # import the monkeyrunner modules used by this program
 import time;
 import sys;
