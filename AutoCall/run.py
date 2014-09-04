@@ -30,104 +30,126 @@
 """
 # import the monkeyrunner modules used by this program
 import time;
+import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
-# Connects to the current device, returning a MonkeyDevice object
-device = MonkeyRunner.waitForConnection()
-device.press('KEYCODE_HOME','DOWN_AND_UP')
-
-# t-Shark postition
-# call icon position in lanucher
-PHONE_ICON_X = 64;
-PHONE_ICON_Y = 789;
-
-# call icon position in callboard
-CALL_ICON_X = 117;
-CALL_ICON_Y = 722;
-
-# sim card selection
-SIM1_ICON_X = 226;
-SIM1_ICON_Y = 449;
-SIM2_ICON_X = 226;
-SIM2_ICON_Y = 537;
-
-# end call
-END_ICON_X = 247;
-END_ICON_Y = 792;
-
+TAG = "AutoCall"
+DEBUG = 1
 testCount = 1000;
+NOT_FOUND = -1
 
+module='com.android.dialer/.DialtactsActivity'
 
-for i in range(0, testCount):
-	MonkeyRunner.sleep(2);
+def checkParams():
+	dType = sys.argv[1]
+	print "%s" %(dType)
+	print "dType.length=%d" %(len(dType))
+
+	# Just show all characters of get from args
+	"""
+	for i in range(0,len(dType)):
+		print "dType[%d]=%c" %(i, dType[i])
+	"""
+
+	""" Modify for this just because sys.argv, which is get from shell,
+	which contain some special non-display character
+	"""
+	tmp = dType
+	if(NOT_FOUND != tmp.find("7060S")):
+		module='com.android.dialer/.DialtactsActivity'
+		# call icon position in callboard
+		CALL_ICON_X = 240;
+		CALL_ICON_Y = 805;
+		# end call
+		END_ICON_X = 247;
+		END_ICON_Y = 792;
+		# sim card selection
+		SIM1_ICON_X = 226;
+		SIM1_ICON_Y = 449;
+		SIM2_ICON_X = 226;
+		SIM2_ICON_Y = 537;
+	elif(NOT_FOUND != tmp.find("7061")):
+		""" This is a area you can modify
+		"""
+		module='com.android.dialer/.DialtactsActivity'
+		# call icon position in callboard
+		CALL_ICON_X = 240;
+		CALL_ICON_Y = 805;
+		# end call
+		END_ICON_X = 247;
+		END_ICON_Y = 792;
+		# sim card selection postion
+		SIM1_ICON_X = 226;
+		SIM1_ICON_Y = 449;
+		SIM2_ICON_X = 226;
+		SIM2_ICON_Y = 537;
+	else:
+		""" This is else branch
+		"""
+
+def doTask():
+	for i in range(0, testCount):
+		MonkeyRunner.sleep(2);
+		LOGD("doTask", "make a Call -- SIM-1")
+		makeCall(1, i)
+		LOGD("doTask", "make a Call -- SIM-2")
+		makeCall(2, i)
+
+def LOGD(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]This test is beginning..." %(t,i)
+	print "%s [DEBUG] %s: %s" %(t, TAG, msg)
 
-	# open phone from lanucher
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Openning phone call dial..." %(t,i)
-	device.touch(PHONE_ICON_X, PHONE_ICON_Y, MonkeyDevice.DOWN_AND_UP);
+def pressKey(keyStr):
+	mTAG = "pressKey"
+	LOGD(mTAG, "Press the " + keyStr)
+	device.press(keyStr, 'DOWN_AND_UP');
 	MonkeyRunner.sleep(1);
 
-	# click on call icon
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
-	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(4);
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
-	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(3);
+def touchPos(pos_x, pos_y):
+	mTAG = "touchPos"
+	LOGD(mTAG, "Touch the postion is (" + str(pos_x) + "," + str(pos_y) + ")")
+	device.touch(pos_x, pos_y, MonkeyDevice.DOWN_AND_UP);
+	MonkeyRunner.sleep(1);
 
-	# select sim1
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]select a sim1 card..." %(t,i)
-	device.touch(SIM1_ICON_X, SIM1_ICON_Y, MonkeyDevice.DOWN_AND_UP);
+def makeCall(sim, loop):
+	mTAG = "makeCall"
+	if (1 == sim):
+		sim_x = SIM1_ICON_X
+		sim_y = SIM1_ICON_Y
+	elif (2 == sim):
+		sim_x = SIM2_ICON_X
+		sim_y = SIM2_ICON_Y
+
+	# open dail pad
+	MonkeyRunner.sleep(1);
+	LOGD(mTAG, "[" + str(loop) + "] Openning phone call dial...")
+	device.startActivity(component=module);
+	MonkeyRunner.sleep(1);
+
+	# dail a number
+	LOGD(mTAG, "[" + str(loop) + "] click dial pad...")
+	touchPos(CALL_ICON_X, CALL_ICON_Y)
+	LOGD(mTAG, "[" + str(loop) + "] click dial pad...")
+	touchPos(CALL_ICON_X, CALL_ICON_Y)
+
+	# select sim card
+	LOGD(mTAG, "[" + str(loop) + "] select a sim1 card...")
+	touchPos(sim_x, sim_y)
 	MonkeyRunner.sleep(15);
 
 	# end call
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]end call..." %(t,i)
-	device.touch(END_ICON_X, END_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(2);
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(2);
+	LOGD(mTAG, "[" + str(loop) + "] end call...")
+	touchPos(END_ICON_X, END_ICON_Y)
 
-	#================================================
-	# open phone from lanucher
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]Openning phone call dial..." %(t,i)
-	device.touch(PHONE_ICON_X, PHONE_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(2);
+	# press key_back and key_home
+	pressKey('KEYCODE_BACK')
+	pressKey('KEYCODE_HOME')
 
-	# click on call icon
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
-	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(4);
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]click dial pad..." %(t,i)
-	device.touch(CALL_ICON_X, CALL_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(3);
-
-	# select sim1
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]select a sim2 card..." %(t,i)
-	device.touch(SIM2_ICON_X, SIM2_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	MonkeyRunner.sleep(15);
-
-	# end call
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]end call..." %(t,i)
-	device.touch(END_ICON_X, END_ICON_Y, MonkeyDevice.DOWN_AND_UP);
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(3);
-	device.press('KEYCODE_BACK', 'DOWN_AND_UP');
-	MonkeyRunner.sleep(3);
-
-	# this is finished
-	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
-	print "%s [DEBUG] [%04d]This test is finished." %(t,i)
-print "Test finished."
+checkParams()
+# Connects to the current device, returning a MonkeyDevice object
+device = MonkeyRunner.waitForConnection()
+pressKey('KEYCODE_BACK')
+pressKey('KEYCODE_HOME')
+doTask()
+LOGD(TAG, "Test finished.")

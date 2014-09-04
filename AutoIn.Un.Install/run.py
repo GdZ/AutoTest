@@ -31,9 +31,12 @@ import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice;
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By;
 
-# t-Shark postition
+
 TAG = "AutoIn.Un.Install"
-testCount = 1000
+DEBUG = 1
+testCount = 1000;
+NOT_FOUND = -1
+
 dType = ""
 tmp = ""
 ct = 0
@@ -63,6 +66,31 @@ pkgList = [{'apk':'91xiongmaokanshu_6010.apk', 'pkg':'com.nd.android.pandareader
 	{'apk':'sougousousuo_260.apk', 'pkg':'com.sogou.activity.src', 'act':'', 'pos':1, 'ins':0},
 	{'apk':'VoiceSearch_214.apk', 'pkg':'com.google.android.voicesearch', 'act':'', 'pos':1, 'ins':0},
 	{'apk':'yingyuliulishuo_195.apk', 'pkg':'com.liulishuo.engzo', 'act':'', 'pos':1, 'ins':0}]
+
+def checkParams():
+	dType = sys.argv[1]
+	print "%s" %(dType)
+	print "dType.length=%d" %(len(dType))
+
+	# Just show all characters of get from args
+	"""
+	for i in range(0,len(dType)):
+		print "dType[%d]=%c" %(i, dType[i])
+	"""
+
+	""" Modify for this just because sys.argv, which is get from shell,
+	which contain some special non-display character
+	"""
+	tmp = dType
+	if(NOT_FOUND != tmp.find("7060S")):
+	elif(NOT_FOUND != tmp.find("7061")):
+	elif(NOT_FOUND != tmp.find("YourType")):
+		""" If you want add devices, just modify bellow
+		Add your device's position here.
+		"""
+		print "What you want to show"
+	else:
+		print "Why are you goto here"
 
 """ This area just use for format the output, friendly to read
 and find out the programe running state.
@@ -183,6 +211,7 @@ def doTask():
 	LOGD(TAG, 'Uninstall all package begin..................')
 	UninstallAll()
 
+checkParams()
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')
