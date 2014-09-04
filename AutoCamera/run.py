@@ -47,6 +47,11 @@ import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
+TAG = "AutoCamera"
+testCount = 1000;
+DEBUG = 1
+NOT_FOUND = -1
+
 ## define four points
 # 0--------->x
 # | 11   12
@@ -77,40 +82,55 @@ A12 = (x12, y12);
 A21 = (x21, y21);
 A22 = (x22, y22);
 
-dType = sys.argv[1]
-print "dType: ", dType
-
-""" Must copy dType to tmp
-Because dType contain some non-display character
-I'm so amazing about this
-"""
-" modify @2014.08.06 begin "
-tmp = ""
-ct = 0
-for i in range(0,len(dType)-1):
-	print "dType[%d]=%c" %(i, dType[i])
-	if('\0' == dType[i]):
-		break
-	else:
-		ct = ct + 1
-	tmp = tmp + "" + dType[i]
-print "ct:%d,dType:%d" %(ct, len(dType)-1)
-" modify @2014.08.06 end "
-
 ## tips for comp
-sprdCamera='com.android.gallery3d/com.android.camera.Camera'
-hwCamera='com.android.gallery3d/com.android.camera.CameraLauncher'
-lteCamera='com.android.camera2/com.android.camera.CameraLauncher'
 Video='com.android.camera2/com.android.camera.VideoCamera'
 Photo='com.android.camera2/com.android.camera.CameraActivity'
 actVideo='android.media.action.VIDEO_CAMERA'
 actPhoto='android.media.action.STILL_IMAGE_CAMERA'
+
 # t-Shark postition
-TAG = "sprdCamera"
 POST_X = 240;
 POST_Y = 744;
 POST_X_V = 272;
-testCount = 1000;
+
+def checkParams():
+	dType = sys.argv[1]
+	print "%s" %(dType)
+	print "dType.length=%d" %(len(dType))
+
+	# Just show all characters of get from args
+	"""
+	for i in range(0,len(dType)):
+		print "dType[%d]=%c" %(i, dType[i])
+	"""
+
+	""" Modify for this just because sys.argv, which is get from shell,
+	which contain some special non-display character
+	"""
+	tmp = dType
+	if(NOT_FOUND != tmp.find("7060S")):
+		POST_X = 240;
+		POST_Y = 744;
+		POST_X_V = 272;
+		Photo='com.android.camera2/com.android.camera.CameraActivity'
+		actPhoto='android.media.action.STILL_IMAGE_CAMERA'
+		Video='com.android.camera2/com.android.camera.VideoCamera'
+		actVideo='android.media.action.VIDEO_CAMERA'
+	elif(NOT_FOUND != tmp.find("7061")):
+		POST_X = 240;
+		POST_Y = 744;
+		POST_X_V = 272;
+		Photo='com.android.camera2/com.android.camera.CameraActivity'
+		actPhoto='android.media.action.STILL_IMAGE_CAMERA'
+		Video='com.android.camera2/com.android.camera.VideoCamera'
+		actVideo='android.media.action.VIDEO_CAMERA'
+	elif(NOT_FOUND != tmp.find("YourType")):
+		""" If you want add devices, just modify bellow
+		Add your device's position here.
+		"""
+		print "What you want to show"
+	else:
+		print "Why are you goto here"
 
 def LOGI(TAG, msg):
 	t = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()));
@@ -181,6 +201,7 @@ def doTask():
 		doClick('KEYCODE_BACK', 'DOWN_AND_UP');
 		capPhoto(i);
 
+checkParams()
 # Connects to the current device, returning a MonkeyDevice object
 device = MonkeyRunner.waitForConnection()
 doClick('KEYCODE_BACK','DOWN_AND_UP')

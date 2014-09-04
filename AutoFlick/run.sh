@@ -21,6 +21,8 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 #====================================================================================
+DTYPE=`adb shell getprop ro.yulong.version.software`
+
 function chk()
 {
 	read -p "Loop have finished. Do you want to exit?[y/Y]" ch
@@ -30,7 +32,7 @@ function chk()
 			exit 0
 			;;
 		*)
-			monkeyrunner ./run.py
+			monkeyrunner ./run.py ${DTYPE}
 			chk
 			;;
 	esac

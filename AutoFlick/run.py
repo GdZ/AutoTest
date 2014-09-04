@@ -27,11 +27,14 @@
 """
 # import the monkeyrunner modules used by this program
 import time;
+import sys;
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 from com.android.monkeyrunner.easy import EasyMonkeyDevice, By
 
-# Connects to the current device, returning a MonkeyDevice object
-device = MonkeyRunner.waitForConnection();
+TAG = "AutoFlick"
+testCount = 1000;
+DEBUG = 1
+NOT_FOUND = -1
 
 # postition
 b_x = 330;
@@ -59,9 +62,30 @@ y12 = y11;
 x21 = x11;
 y21 = y11 + yy;
 
-testCount = 200;
+def checkParams():
+	dType = sys.argv[1]
+	print "%s" %(dType)
+	print "dType.length=%d" %(len(dType))
 
-debug = 1;
+	# Just show all characters of get from args
+	"""
+	for i in range(0,len(dType)):
+		print "dType[%d]=%c" %(i, dType[i])
+	"""
+
+	""" Modify for this just because sys.argv, which is get from shell,
+	which contain some special non-display character
+	"""
+	tmp = dType
+	if(NOT_FOUND != tmp.find("7060S")):
+	elif(NOT_FOUND != tmp.find("7061")):
+	elif(NOT_FOUND != tmp.find("YourType")):
+		""" If you want add devices, just modify bellow
+		Add your device's position here.
+		"""
+		print "What you want to show"
+	else:
+		print "Why are you goto here"
 
 def P11_P22(i):
 	#i = 11,22;
@@ -95,4 +119,7 @@ def loop():
 		click_btn(ii)
 		MonkeyRunner.sleep(5);
 
+checkParams()
+# Connects to the current device, returning a MonkeyDevice object
+device = MonkeyRunner.waitForConnection();
 loop()
