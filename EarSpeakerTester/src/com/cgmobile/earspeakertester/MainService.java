@@ -1,4 +1,3 @@
-
 package com.cgmobile.earspeakertester;
 
 import android.app.Notification;
@@ -25,8 +24,28 @@ public class MainService extends Service implements OnAudioFocusChangeListener {
     public static final int TIME_STONE = 3500;
 
 	// gdz.modify @2014.08.07 for new resource
-    //private static final String AUDIO_FILE_NAME = "all rise.mp3";
-    private static final String AUDIO_FILE_NAME = "2500hz.mp3";
+	class AUDIO_FILES {
+		public static final String TYPE = ".mp3";
+
+		public static final String HT_FILE_NAME 	= "all rise" 	+ TYPE;
+
+		public static final String HT_2500Hz 		= "HT_2500Hz" 		+ TYPE;
+		public static final String HT_20_20KHz 	= "HT_20_20KHz" + TYPE;
+
+		public static final String HW_20Hz 		= "HW_20Hz" 	+ TYPE;
+		public static final String HW_50Hz 		= "HW_50Hz" 	+ TYPE;
+		public static final String HW_100Hz	 	= "HW_100Hz"	+ TYPE;
+		public static final String HW_200Hz	 	= "HW_200Hz"	+ TYPE;
+		public static final String HW_500Hz	 	= "HW_500Hz"	+ TYPE;
+		public static final String HW_1KHz 		= "HW_1KHz" 	+ TYPE;
+		public static final String HW_3KHz 		= "HW_3KHz" 	+ TYPE;
+		public static final String HW_5KHz 		= "HW_5KHz" 	+ TYPE;
+		public static final String HW_10KHz 		= "HW_10KHz" 	+ TYPE;
+		public static final String HW_15KHz 		= "HW_15KHz" 	+ TYPE;
+		public static final String HW_20KHz 		= "HW_20KHz" 	+ TYPE;
+		public static final String HW_20_10KHz 	= "HW_20_10KHz" + TYPE;
+	}
+	private static String CurAudio;
 	// gdz.modify @2014.08.07 for new resource
     // private static final String AUDIO_FILE_PATH = "file:///android_asset/" +
     // AUDIO_FILE_NAME;
@@ -164,7 +183,8 @@ public class MainService extends Service implements OnAudioFocusChangeListener {
 
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
         try {
-            mediaPlayer.setDataSource(this.getAssets().openFd(AUDIO_FILE_NAME).getFileDescriptor());
+			mediaPlayer.setDataSource(this.getAssets().openFd(AUDIO_FILES.HW_1KHz)
+					.getFileDescriptor());
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
