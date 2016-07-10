@@ -21,7 +21,7 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 #====================================================================================
-black_file=/home/zhanggd/develop/branch.git/AutoTest/MonkeyTest/blacklist.txt
+black_file=${HOME}/develop/branch.git/AutoTest/MonkeyTest/blacklist.txt
 
 log_fold="log_`date +%Y%m%d`"
 mkdir -p ${log_fold}
